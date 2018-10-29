@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/game.js', function (req,res,next)
+{
+    res.sendFile('game.js', {root:'public/javascripts'});
+})
+
 module.exports = router;

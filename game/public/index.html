@@ -7,15 +7,26 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
     <script src="game.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="page-header"><h1>Game</h1></div>
-    <div ng-app = "myApp" ng-controller= "gCont">
-        <canvas>
-                
-        </canvas>
+    <div class="page-header">
+        <h1>Game</h1>
     </div>
+    <div ng-app="myApp" ng-controller="gCont">
+
+    </div>
+    <button onclick="moveup()">UP</button>
+    <button onclick="movedown()">DOWN</button>
+    <button onclick="moveleft()">LEFT</button>
+    <button onclick="moveright()">RIGHT</button>
 </body>
 
 </html>

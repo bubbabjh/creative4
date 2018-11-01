@@ -1,9 +1,50 @@
-angular.module('myApp', [])
-    .controller('gCont', mainControl);
+var app = window.angular.module('app', [])
 
-function mainControl($scope, $https) {
+app.factory('highScores', scoreIt)
+app.controller('mainCtrl', mainCtrl)
+
+function scoreIt($http) {
+
+    var API_ROOT = 'highScores'
+    return {
+        get: function() {
+            return $http
+                .get(API_ROOT)
+                .then(function(resp) {
+                    return resp.data
+                })
+        }
+    }
 
 }
+
+function mainCtrl($scope, scoreIt, $http) {
+
+    $scope.highScores = []
+
+    $scope.addScore = function() {
+        var formData = { name: $scope.Name, theirScore: $scope.theScore };
+        console.log(formData);
+        var gameUrl = 'game';
+        $http({
+            url: ameUrl,
+            method: "POST",
+            data: formData
+        }).success(function(data, status, headers, config) {
+            console.log("Post worked");
+        }).error(function(data, status, headers, config) {
+            console.log("Post failed");
+        });
+    }
+
+    scoreIt.get()
+        .then(function(data) {
+            $scope.game = data
+        })
+}
+
+
+var score = 0;
 
 window.onload = startGame;
 
@@ -15,8 +56,8 @@ var myObstacle;
 
 function startGame() {
     myGamePiece = new component(11, 21, "stickman.jpg", 10, 120, "image");
-    //myScore = new component("30px", "Consolas", "black", 280, 40, "text");
-    myObstacle = new component(10, 100, "green", 300, 170);
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myObstacle = new component(10, 20, "building.jpg", 120, 120, "image");
     myGameArea.start();
 }
 
@@ -46,10 +87,13 @@ function everyinterval(n) {
 
 function component(width, height, color, x, y, type) {
     this.type = type;
+    var ctx = myGameArea.canvas.getContext('2d');
+
     if (type == "image") {
         this.image = new Image();
         this.image.src = color;
     }
+
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -59,7 +103,14 @@ function component(width, height, color, x, y, type) {
     this.gravity = 0.3;
     this.gravitySpeed = 0;
     this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        }
         if (type == "image") {
+
             ctx.drawImage(this.image,
                 this.x,
                 this.y,
@@ -121,17 +172,21 @@ function updateGameArea() {
         }
     }
     myGameArea.clear();
+
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(20 + Math.floor(Math.random() * 101))) {
+    if (myGameArea.frameNo == 1 || everyinterval(20 + Math.floor(Math.random() * 50))) {
         x = myGameArea.canvas.width;
         y = myGameArea.canvas.height - 200
         var oheight = Math.floor(Math.random() * 70) + 20;
-        myObstacles.push(new component(Math.floor(Math.random() * 13) + 2, oheight, "green", x, myGameArea.canvas.height - oheight));
+        myObstacles.push(new component(Math.floor(Math.random() * 13) + 2, oheight, "building.jpg", x, myGameArea.canvas.height - oheight, "image"));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -2.5;
+        myObstacles[i].x += -score / 500 - 2;
         myObstacles[i].update();
     }
+    myScore.text = "SCORE: " + myGameArea.frameNo;
+    score = myGameArea.frameNo;
+    document.getElementById("theScore").innerHTML = score;
     myGamePiece.newPos();
     myGamePiece.update();
 }
@@ -139,7 +194,6 @@ function updateGameArea() {
 
 
 kd.D.down(function() {
-    console.log('The "D" key is being held down!');
     myGamePiece.width = 27;
     myGamePiece.height = 13;
     myGamePiece.image.src = "stickman.1.jpg";
@@ -148,7 +202,6 @@ kd.D.down(function() {
     myGamePiece.gravitySpeed = 0;
 });
 kd.A.down(function() {
-    console.log('The "A" key is being held down!');
     myGamePiece.width = 27;
     myGamePiece.height = 13;
     myGamePiece.image.src = "stickman.2.jpg";
@@ -172,7 +225,6 @@ kd.A.up(function() {
 });
 
 kd.S.down(function() {
-    console.log('The "S" key is being held down!');
     myGamePiece.speedY = 0;
     myGamePiece.speedX = 0;
     myGamePiece.gravitySpeed = 10;

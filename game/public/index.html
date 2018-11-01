@@ -7,7 +7,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
     <script src = "//jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
     <script src="game.js"></script>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         canvas {
@@ -17,11 +17,16 @@
     </style>
 </head>
 
-<body>
+<body id='app' ng-app='app' ng-controller='mainCtrl'>
     <div class="page-header">
         <h1>Game</h1>
     </div>
     <p>Use the WSAD keys to move around</p>
+    <form id="newScore" ng-submit="addScore()">
+      Name: <input type="text" ng-model="Name" value="">
+      <input type="submit" value="Submit">
+    </form> 
+    <p>Score: </p>  <div id = "theScore"></div>
 </body>
 
 </html>

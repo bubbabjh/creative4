@@ -13,11 +13,12 @@ canvas
 {
   display: block;
   margin: auto;
+  background-color: lightskyblue;
 }
 
 .img
 {
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4JVmoIcL2GfLV4MOU1JCA5mym-ruWPwAbquSGBdLMcCc_OJRc");
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4JVmoIcL2GfLV4MOU1JCA5mym-ruWPwAbquSGBdLMcCc_OJRc");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

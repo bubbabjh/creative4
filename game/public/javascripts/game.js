@@ -180,15 +180,15 @@ function updateGameArea() {
         x = myGameArea.canvas.width;
         y = myGameArea.canvas.height - 200
         var oheight = Math.floor(Math.random() * 70) + 20;
-        myObstacles.push(new component(Math.floor(Math.random() * 13) + 2, oheight, "building.jpg", x, myGameArea.canvas.height - oheight, "image"));
+        myObstacles.push(new component(Math.floor(Math.random() * 40) + 2, oheight, "building.jpg", x, myGameArea.canvas.height - oheight, "image"));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -score / 500 - 2;
+        myObstacles[i].x += -score / 5 - 2;
         myObstacles[i].update();
     }
     myScore.text = "SCORE: " + myGameArea.frameNo;
-    score = myGameArea.frameNo;
-    document.getElementById("theScore").innerHTML = score;
+    score = myGameArea.frameNo / 100;
+    document.getElementById("theScore").innerHTML = Math.ceil(score);
     myGamePiece.newPos();
     myGamePiece.update();
 }

@@ -53,11 +53,13 @@ var onBottom;
 var myGamePiece;
 var myScore;
 var myObstacle;
+var myObstacles = [];
 
 function startGame() {
     myGamePiece = new component(11, 21, "stickman.jpg", 10, 120, "image");
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myObstacle = new component(10, 20, "building.jpg", 120, 120, "image");
+    myObstacles = [];
     myGameArea.start();
 }
 
@@ -161,7 +163,7 @@ function component(width, height, color, x, y, type) {
 
     }
 }
-var myObstacles = [];
+
 
 function updateGameArea() {
     var x, y;
@@ -194,33 +196,37 @@ function updateGameArea() {
 
 
 kd.D.down(function() {
+    myGamePiece.image.src = "stickman.1.jpg";
     myGamePiece.width = 27;
     myGamePiece.height = 13;
-    myGamePiece.image.src = "stickman.1.jpg";
+    
     myGamePiece.speedY = .2;
     myGamePiece.speedX = 3;
     myGamePiece.gravitySpeed = 0;
 });
 kd.A.down(function() {
+    myGamePiece.image.src = "stickman.2.jpg";
     myGamePiece.width = 27;
     myGamePiece.height = 13;
-    myGamePiece.image.src = "stickman.2.jpg";
+    
     myGamePiece.speedY = .2;
     myGamePiece.speedX = -3;
     myGamePiece.gravitySpeed = 0;
 });
 
 kd.D.up(function() {
+    myGamePiece.image.src = "stickman.jpg";
     myGamePiece.width = 11;
     myGamePiece.height = 21;
-    myGamePiece.image.src = "stickman.jpg";
+    
     myGamePiece.speedX = 0;
 });
 
 kd.A.up(function() {
+    myGamePiece.image.src = "stickman.jpg";
     myGamePiece.width = 11;
     myGamePiece.height = 21;
-    myGamePiece.image.src = "stickman.jpg";
+    
     myGamePiece.speedX = 0;
 });
 

@@ -17,15 +17,12 @@
     </style>
 </head>
 
-<body id='app' ng-app='app' ng-controller='mainCtrl'>
+<body class="d-flex flex-column img" id='app' ng-app='app' ng-controller='mainCtrl'>
     <div class="page-header">
         <h1>Game</h1>
     </div>
     <p>Use the WSAD keys to move around</p>
-    <form id="newScore" ng-submit="addScore()">
-      Name: <input type="text" ng-model="Name" value="">
-      <input type="submit" value="Submit">
-    </form> 
+    <button class = "btn btn-default" onclick= "startGame()">Restart</button>
     <p>Score: </p>  <div id = "theScore"></div>
 </body>
 

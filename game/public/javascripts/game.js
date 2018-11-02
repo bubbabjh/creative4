@@ -1,9 +1,11 @@
 var app = window.angular.module('app', [])
 
-app.factory('highScores', scoreIt)
+app.factory('getThing', getThing)
 app.controller('mainCtrl', mainCtrl)
 
-function scoreIt($http) {
+var theirScore = 0;
+
+function getThing($http) {
 
     var API_ROOT = 'highScores'
     return {
@@ -18,16 +20,21 @@ function scoreIt($http) {
 
 }
 
-function mainCtrl($scope, scoreIt, $http) {
+function mainCtrl($scope, getThing, $http) {
 
     $scope.highScores = []
 
+    getThing.get()
+        .then(function(data) {
+            $scope.highScores = data
+        })
+
     $scope.addScore = function() {
-        var formData = { name: $scope.Name, theirScore: $scope.theScore };
+        var formData = { name: $scope.Name, Score: theirScore};
         console.log(formData);
-        var gameUrl = 'game';
+        var toHS = 'highScores';
         $http({
-            url: ameUrl,
+            url: toHS,
             method: "POST",
             data: formData
         }).success(function(data, status, headers, config) {
@@ -35,23 +42,17 @@ function mainCtrl($scope, scoreIt, $http) {
         }).error(function(data, status, headers, config) {
             console.log("Post failed");
         });
+        location.reload();
     }
-
-    scoreIt.get()
-        .then(function(data) {
-            $scope.game = data
-        })
 }
 
-
-var score = 0;
 
 window.onload = startGame;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Game
 var onBottom;
 var myGamePiece;
-var myScore;
+
 var myObstacle;
 var myObstacles = [];
 
@@ -183,12 +184,12 @@ function updateGameArea() {
         myObstacles.push(new component(Math.floor(Math.random() * 40) + 2, oheight, "building.jpg", x, myGameArea.canvas.height - oheight, "image"));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -score / 5 - 2;
+        myObstacles[i].x += -theirScore / 5 - 2;
         myObstacles[i].update();
     }
-    myScore.text = "SCORE: " + myGameArea.frameNo;
-    score = myGameArea.frameNo / 100;
-    document.getElementById("theScore").innerHTML = Math.ceil(score);
+    theirScore.text = "SCORE: " + myGameArea.frameNo;
+    theirScore = myGameArea.frameNo / 100;
+    document.getElementById("theScore").innerHTML = Math.ceil(theirScore);
     myGamePiece.newPos();
     myGamePiece.update();
 }
@@ -199,7 +200,7 @@ kd.D.down(function() {
     myGamePiece.image.src = "stickman.1.jpg";
     myGamePiece.width = 27;
     myGamePiece.height = 13;
-    
+
     myGamePiece.speedY = .2;
     myGamePiece.speedX = 3;
     myGamePiece.gravitySpeed = 0;
@@ -208,7 +209,7 @@ kd.A.down(function() {
     myGamePiece.image.src = "stickman.2.jpg";
     myGamePiece.width = 27;
     myGamePiece.height = 13;
-    
+
     myGamePiece.speedY = .2;
     myGamePiece.speedX = -3;
     myGamePiece.gravitySpeed = 0;
@@ -218,7 +219,7 @@ kd.D.up(function() {
     myGamePiece.image.src = "stickman.jpg";
     myGamePiece.width = 11;
     myGamePiece.height = 21;
-    
+
     myGamePiece.speedX = 0;
 });
 
@@ -226,7 +227,7 @@ kd.A.up(function() {
     myGamePiece.image.src = "stickman.jpg";
     myGamePiece.width = 11;
     myGamePiece.height = 21;
-    
+
     myGamePiece.speedX = 0;
 });
 

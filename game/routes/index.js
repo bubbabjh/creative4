@@ -41,12 +41,17 @@ router.get('/', function (req,res,next)
     res.sendFile('index.html', {root:'public'});
 })
 
-router.post('/game', function(req, res) {
+router.get('/highScores', function(req,res,next)
+{
+    res.send(highScores);
+})
+
+
+router.post('/highScores', function(req, res) {
     console.log("In Pokemon Post");
     console.log(req.body);
     highScores.push(req.body);
     res.end('{"success" : "Updated Successfully", "status" : 200}');
-
 }); 
 
 module.exports = router;
